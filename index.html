@@ -347,3 +347,261 @@
     </div>
 
     <main id="main-content">
+        
+        <div id="page1" class="page active">
+            <div class="content-card">
+                <div class="content-card-decor decor-top-left"></div>
+                <div class="content-card-decor decor-bottom-right"></div>
+                
+                <h2>Уважаемый Гость</h2>
+                <p style="font-family:'Montserrat', sans-serif; font-size:0.8rem; text-transform:uppercase; letter-spacing:2px; margin-bottom:20px; color:#A39E93;">Персональное приглашение для:</p>
+                
+                <input type="text" placeholder="Введите Ваше имя..." style="width:80%; padding:10px; border:none; border-bottom:2px solid #9E8454; text-align:center; font-size:1.3rem; font-family:'Cormorant Garamond'; background:transparent; margin-bottom:40px; color:#2A2F35; outline:none; font-weight: 600;">
+                
+                <div class="hosts-title">Хозяева торжества</div>
+                <div class="hosts-names">Арстан & Нурай</div>
+                
+                <div class="nav-box">
+                    <button class="btn-nav" onclick="nextPage(2)">Далее</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="page2" class="page">
+            <div class="content-card">
+                <div class="content-card-decor decor-top-left"></div>
+                <div class="content-card-decor decor-bottom-right"></div>
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="130" height="90" style="margin-bottom: 15px;">
+                  <defs>
+                    <linearGradient id="gold-3d" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#D4AF37"/><stop offset="30%" stop-color="#FFFDD0"/><stop offset="70%" stop-color="#AA7C11"/><stop offset="100%" stop-color="#5A450C"/>
+                    </linearGradient>
+                    <linearGradient id="silver-3d" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#E2E8F0"/><stop offset="30%" stop-color="#FFFFFF"/><stop offset="70%" stop-color="#A0AEC0"/><stop offset="100%" stop-color="#4A5568"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="85" cy="60" r="35" fill="none" stroke="url(#silver-3d)" stroke-width="7" filter="drop-shadow(2px 4px 6px rgba(0,0,0,0.15))"/>
+                  <circle cx="115" cy="60" r="35" fill="none" stroke="url(#gold-3d)" stroke-width="7" filter="drop-shadow(2px 4px 6px rgba(0,0,0,0.15))"/>
+                </svg>
+
+                <p class="invitation-text" style="font-weight: 600; margin-bottom: 15px; color:#9E8454;">Дорогие наши родные и уважаемые гости!</p>
+                <p class="invitation-text" style="font-size:1.15rem; margin-bottom: 15px;">С огромной радостью и искренним волнением приглашаем Вас разделить с нами один из самых счастливых и значимых дней нашей семьи — торжество в честь бракосочетания Сагын и Айнуру.</p>
+                <p class="invitation-text" style="font-size:1.15rem;">Для нас будет большой честью видеть Вас в числе почетных гостей этого светлого праздника. Ваше присутствие, добрые пожелания и искренняя радость станут для молодых бесценным подарком.</p>
+                
+                <div class="nav-box">
+                    <button class="btn-nav" onclick="nextPage(1)">Назад</button>
+                    <button class="btn-nav" onclick="nextPage(3)">Далее</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="page3" class="page">
+            <div class="content-card">
+                <div class="content-card-decor decor-top-left"></div>
+                <div class="content-card-decor decor-bottom-right"></div>
+
+                <h2>Адрес торжества</h2>
+                <p style="font-size: 1.4rem; font-weight: 600; color: #9E8454; margin-bottom: 5px;">Ресторан "Prestige"</p>
+                <p style="font-size: 1.1rem; font-style: italic; margin-bottom: 15px; color:#555;">ул. Благородная, д. 77, г. Бишкек</p>
+                <p style="font-size: 1.1rem; margin-bottom: 20px; font-style: italic;">31 июля 2026 года в 17:00<br>Ждем вас по адресу, указанному на карте ниже:</p>
+                <a href="https://go.2gis.com/FgJRM" target="_blank" class="btn-nav" style="display:inline-block; padding:8px 20px; margin-bottom:35px;">Открыть карту 2ГИС 📍</a>
+
+                <h2>Дресс-код</h2>
+                <p style="font-style: italic; font-size: 1.1rem; color:#4A5568; margin-bottom: 15px;">Мы будем признательны, если Вы поддержите атмосферу аристократизма и выберете вечерние наряды в элегантном классическом стиле.</p>
+                <div class="palette">
+                    <div class="circle" style="background:#1A252F;"></div>
+                    <div class="circle" style="background:#4A5568;"></div>
+                    <div class="circle" style="background:#D4AF37;"></div>
+                    <div class="circle" style="background:#E2E8F0;"></div>
+                    <div class="circle" style="background:#FFFFFF;"></div>
+                </div>
+
+                <div class="nav-box" style="margin-top: 35px;">
+                    <button class="btn-nav" onclick="nextPage(2)">Назад</button>
+                    <button class="btn-nav" onclick="nextPage(4)">Далее</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="page4" class="page">
+            <div class="content-card">
+                <div class="content-card-decor decor-top-left"></div>
+                <div class="content-card-decor decor-bottom-right"></div>
+
+                <h2>Книга пожеланий</h2>
+                <div style="background:rgba(255,255,255,0.5); padding:20px; border:1px solid #EAE5DC; margin-bottom: 40px;">
+                    <input type="text" id="author" class="wish-input" placeholder="Ваше Имя">
+                    <textarea id="text" class="wish-text" placeholder="Ваши изысканные пожелания молодым..."></textarea>
+                    <button onclick="saveWish()" class="btn-nav" style="width:100%;">Оставить слово</button>
+                    
+                    <div class="wishes-output" id="output-box">
+                        <div class="wish-item"><strong style="color:#9E8454;">Арстан и Нурай:</strong> Счастья, любви и долгих совместных лет жизни молодым! Рады видеть всех гостей!</div>
+                    </div>
+                </div>
+
+                <h2>До торжества осталось</h2>
+                <div class="timer-grid">
+                    <div class="timer-item"><div class="timer-num" id="days">00</div><div class="timer-label">Дней</div></div>
+                    <div class="timer-item"><div class="timer-num" id="hours">00</div><div class="timer-label">Часов</div></div>
+                    <div class="timer-item"><div class="timer-num" id="minutes">00</div><div class="timer-label">Мин</div></div>
+                    <div class="timer-item"><div class="timer-num" id="seconds">00</div><div class="timer-label">Сек</div></div>
+                </div>
+
+                <div class="nav-box">
+                    <button class="btn-nav" onclick="nextPage(3)">Назад</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Функция открытия конверта
+        function openEnvelope(event) {
+            event.stopPropagation(); // Предотвращаем клик по wrapper
+            
+            const fold = document.getElementById('envelope-fold');
+            const seal = document.getElementById('wax-seal');
+            const text = document.getElementById('envelope-text');
+
+            // 1. Анимация открепления сердечка и текста
+            seal.style.opacity = '0';
+            seal.style.transform = 'translate(-50%, -50%) scale(0.5)';
+            text.style.opacity = '0';
+
+            // 2. Добавляем класс открытия (с задержкой для открепления)
+            setTimeout(() => {
+                document.body.classList.add('envelope-opened');
+                
+                // Эффект вылетающих сердечек (как голуби)
+                const rect = fold.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        createHeart(centerX, centerY);
+                    }, i * 30);
+                }
+
+                // Пытаемся запустить музыку
+                toggleAudio(true);
+            }, 300);
+        }
+
+        // Эффект вылетающих сердечек
+        function createHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerHTML = Math.random() > 0.5 ? '❤️' : '🕊️'; // Сердечки и Голуби
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+
+            // Случайное направление
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 10 + 15; // Скорость взлета
+            const dx = Math.cos(angle) * velocity;
+            const dy = Math.sin(angle) * velocity - 10; // Всегда немного вверх
+
+            let opacity = 1;
+            let currentX = x;
+            let currentY = y;
+            let scale = 1;
+
+            const interval = setInterval(() => {
+                currentX += dx;
+                currentY += dy;
+                opacity -= 0.03;
+                scale -= 0.01;
+
+                if (opacity <= 0) {
+                    clearInterval(interval);
+                    heart.remove();
+                } else {
+                    heart.style.transform = `translate(${currentX - x}px, ${currentY - y}px) scale(${scale})`;
+                    heart.style.opacity = opacity;
+                }
+            }, 20);
+        }
+
+        // Фоновый листопад
+        function startPetals() {
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.className = 'rose-petal';
+                petal.style.left = Math.random() * window.innerWidth + 'px';
+                petal.style.animationDuration = (Math.random() * 3 + 4) + 's'; // 4-7 сек
+                petal.style.opacity = Math.random() * 0.5 + 0.3;
+                document.body.appendChild(petal);
+
+                setTimeout(() => petal.remove(), 7000);
+            }, 500);
+        }
+
+        // Логика кнопок "Далее" / "Назад"
+        function nextPage(pageNumber) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('page' + pageNumber).classList.add('active');
+            
+            // Скроллим наверх письма
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Аудио логика
+        function toggleAudio(forcePlay = false) {
+            const music = document.getElementById('bg-music');
+            const btn = document.getElementById('audio-toggle');
+            
+            if (forcePlay || music.paused) {
+                music.play();
+                btn.innerText = '🔇';
+            } else {
+                music.pause();
+                btn.innerText = '🎵';
+            }
+        }
+
+        // Таймер обратного отсчета
+        function updateTimer() {
+            const weddingDate = new Date('July 31, 2026 17:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+
+        // Запуск листопадов и таймера
+        window.onload = function() {
+            startPetals();
+            setInterval(updateTimer, 1000);
+        }
+
+        // Книга пожеланий (без сервера)
+        function saveWish() {
+            const author = document.getElementById('author').value;
+            const text = document.getElementById('text').value;
+            if(!author || !text) return;
+
+            const box = document.getElementById('output-box');
+            const wish = document.createElement('div');
+            wish.className = 'wish-item';
+            wish.innerHTML = `<strong>${author}:</strong> ${text}`;
+            box.prepend(wish);
+
+            // Очистка полей
+            document.getElementById('author').value = '';
+            document.getElementById('text').value = '';
+        }
+    </script>
+</body>
+</html>
