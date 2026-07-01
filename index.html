@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приглашение на торжество | Сагын & Айнуру</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
@@ -47,7 +47,7 @@
             100% { top: 105vh; transform: translateX(120px) rotate(360deg); opacity: 0.1; }
         }
 
-        /* ЭКРАН С УВЕЛИЧЕННЫМ КОНВЕРТОМ */
+        /* РОСКОШНЫЙ ЭКРАН С ОБНОВЛЕННЫМ СВАДЕБНЫМ КОНВЕРТОМ */
         #envelope-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -59,13 +59,14 @@
             transition: all 1.2s ease-in-out;
         }
 
+        /* КРАСИВЫЙ СВАДЕБНЫЙ КОНВЕРТ С ЗОЛОТЫМ ТИСНЕНИЕМ */
         .envelope {
-            width: 480px; /* Увеличен размер конверта */
-            height: 300px;
+            width: 480px; 
+            height: 320px;
             max-width: 92%;
             background: #FFFFFF; 
-            box-shadow: 0 40px 90px rgba(0,0,0,0.2), inset 0 0 25px rgba(0,0,0,0.02);
-            border-radius: 12px;
+            box-shadow: 0 40px 90px rgba(0,0,0,0.25), inset 0 0 40px rgba(158, 132, 84, 0.05);
+            border-radius: 4px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -73,49 +74,88 @@
             cursor: pointer;
             position: relative;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 20px;
+            border: 1px solid #EAE2D5;
         }
+        
+        /* Внутренняя золотая рамка */
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 1px solid #D4AF37;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        /* Вторая тонкая линия рамки */
+        .envelope-inner-border {
+            position: absolute;
+            top: 16px; left: 16px; right: 16px; bottom: 16px;
+            border: 2px solid #D4AF37;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
         .envelope:hover { transform: scale(1.03); }
 
+        /* ИСПРАВЛЕННАЯ СУРГУЧНАЯ ПЕЧАТЬ — ЧЕТКИЕ БУКВЫ */
         .wax-seal {
-            width: 110px; /* Увеличена печать для четкости инициалов */
-            height: 110px;
+            width: 115px; 
+            height: 115px;
             background: radial-gradient(#E6C280, #C79D4C);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #FFF;
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.2rem;
-            text-shadow: 1px 2px 4px rgba(0,0,0,0.2);
-            box-shadow: 0 10px 25px rgba(199, 157, 76, 0.5), inset 0 -4px 6px rgba(0,0,0,0.15);
+            font-family: 'Montserrat', sans-serif; /* Понятный шрифт */
+            font-weight: 600;
+            font-size: 1.9rem; 
+            letter-spacing: 3px;
+            text-shadow: 1px 2px 5px rgba(0,0,0,0.25);
+            box-shadow: 0 12px 28px rgba(199, 157, 76, 0.6), inset 0 -4px 6px rgba(0,0,0,0.2);
             border: 3px solid #D4AF37;
+            z-index: 2;
+        }
+
+        .envelope-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #9E8454;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
         .envelope-text {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             letter-spacing: 4px;
             text-transform: uppercase;
             color: #A39E93;
-            margin-top: 30px;
-            font-weight: 400;
+            margin-top: 20px;
+            font-weight: 500;
         }
 
-        /* БУКЕТЫ БЕЛЫХ РОЗ ПО БОКАМ (СТРАНИЦА 1) */
+        /* БОЛЬШИЕ БУКЕТЫ БЕЛЫХ РОЗ ПО БОКАМ (СТРАНИЦА 1) */
         .rose-decor {
             position: absolute;
-            bottom: -20px;
-            width: 180px;
-            height: 280px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 250px; 
+            height: 100%;
             background-size: contain;
             background-repeat: no-repeat;
-            opacity: 0.35;
+            background-position: center;
+            opacity: 0.3;
             pointer-events: none;
-            z-index: 1;
+            z-index: 0; 
         }
-        .rose-left { left: -20px; background-image: url('https://images.unsplash.com/photo-1533616688419-b7a585564566?q=80&w=300'); transform: scaleX(-1); }
-        .rose-right { right: -20px; background-image: url('https://images.unsplash.com/photo-1533616688419-b7a585564566?q=80&w=300'); }
+        .rose-left { left: -100px; background-image: url('https://images.unsplash.com/photo-1533616688419-b7a585564566?q=80&w=300'); transform: translateY(-50%) scaleX(-1); }
+        .rose-right { right: -100px; background-image: url('https://images.unsplash.com/photo-1533616688419-b7a585564566?q=80&w=300'); }
 
         /* СТРАНИЦЫ И РАЗНЫЕ ФОНЫ */
         .page {
@@ -130,12 +170,11 @@
         }
         .page.active { display: block; animation: fadeInPage 0.8s ease forwards; }
 
-        /* Уникальные фоны для разнообразия в едином стиле */
-        #page1 { background-color: #FAF9F6; } /* Шелковый белый */
-        #page2 { background-color: #F5EFEB; } /* Нежная пудра / шампань */
-        #page3 { background-color: #F0EDE5; } /* Слоновая кость */
+        #page1 { background-color: #FAF9F6; } 
+        #page2 { background-color: #F5EFEB; } 
+        #page3 { background-color: #F0EDE5; } 
         #page4 { background-color: #FAF9F6; } 
-        #page5 { background-color: #ECEAE4; } /* Платиновый кремовый */
+        #page5 { background-color: #ECEAE4; } 
         #page6 { background-color: #F3EFE9; }
 
         @keyframes fadeInPage { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -150,6 +189,7 @@
             backdrop-filter: blur(6px);
             position: relative;
             border-radius: 4px;
+            z-index: 1; 
         }
 
         h2 { font-size: 2rem; color: #9E8454; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; font-weight: 400; }
@@ -220,16 +260,19 @@
 
     <div id="envelope-screen" onclick="openEnvelope(event)">
         <div class="envelope">
-            <div class="wax-seal">S & A</div>
-            <div class="envelope-text">Открыть приглашение</div>
+            <div class="envelope-inner-border"></div>
+            <div class="envelope-title">Свадебное Приглашение</div>
+            
+            <div class="wax-seal">С • А</div>
+            
+            <div class="envelope-text">Нажмите, чтобы открыть</div>
         </div>
     </div>
 
     <div id="page1" class="page">
+        <div class="rose-decor rose-left"></div>
+        <div class="rose-decor rose-right"></div>
         <div class="content-card">
-            <div class="rose-decor rose-left"></div>
-            <div class="rose-decor rose-right"></div>
-
             <h2>Приглашение</h2>
             <p class="invitation-text" style="font-weight: 600; color:#9E8454; margin-bottom: 15px;">Дорогие наши родные и уважаемые гости!</p>
             <p class="invitation-text" style="font-size:1.15rem;">С огромной радостью приглашаем Вас разделить с нами один из самых счастливых дней нашей семьи — торжество в честь бракосочетания Сагын и Айнуру.</p>
@@ -352,7 +395,7 @@
             </div>
 
             <div class="gallery-preview" id="gallery-box">
-                </div>
+            </div>
 
             <div class="nav-box" style="margin-top: 40px;">
                 <button class="btn-nav" onclick="navigateToPage(5)">Назад</button>
@@ -361,15 +404,11 @@
     </div>
 
     <script>
-        // Эффект разлетающихся сердечек (как голуби) при открытии конверта
         function openEnvelope(event) {
             let screen = document.getElementById('envelope-screen');
-            
-            // Координаты центра экрана для старта анимации
             let centerX = window.innerWidth / 2;
             let centerY = window.innerHeight / 2;
 
-            // Генерируем "стаю" разлетающихся сердечек
             for (let i = 0; i < 35; i++) {
                 let p = document.createElement('div');
                 p.className = 'heart-particle';
@@ -378,45 +417,38 @@
                 p.style.top = centerY + 'px';
                 document.body.appendChild(p);
 
-                // Случайный угол и расстояние полета
                 let angle = Math.random() * Math.PI * 2;
                 let distance = Math.random() * 350 + 150; 
                 let destX = Math.cos(angle) * distance;
-                let destY = Math.sin(angle) * distance - (Math.random() * 200); // взлет вверх
+                let destY = Math.sin(angle) * distance - (Math.random() * 200); 
 
-                // Запуск плавного полета через микро-таймаут
                 setTimeout(() => {
                     p.style.transform = `translate(${destX}px, ${destY}px) scale(${Math.random() * 0.7 + 0.6})`;
                     p.style.opacity = '0';
                 }, 50);
 
-                // Очистка элементов
                 setTimeout(() => p.remove(), 2000);
             }
 
-            // Плавное скрытие ширмы конверта
             screen.style.opacity = '0';
             screen.style.transform = 'scale(1.1)';
             
             setTimeout(() => {
                 screen.style.display = 'none';
-                navigateToPage(1); // Открытие первой страницы
-                startPetalsFalling(); // Запуск фонового листопада лепестков
+                navigateToPage(1); 
+                startPetalsFalling(); 
                 
-                // Автоматическое включение музыки
                 let audio = document.getElementById('bg-music');
                 audio.play().catch(() => console.log("Музыка ожидает ручного взаимодействия"));
             }, 1000);
         }
 
-        // Переключение страниц
         function navigateToPage(num) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             let activePage = document.getElementById('page' + num);
             if (activePage) activePage.classList.add('active');
         }
 
-        // Кнопка музыки в углу
         function toggleAudio() {
             let audio = document.getElementById('bg-music');
             let btn = document.getElementById('audio-toggle');
@@ -429,7 +461,6 @@
             }
         }
 
-        // Книга пожеланий
         function saveWish() {
             let name = document.getElementById('author').value.trim();
             let wish = document.getElementById('text').value.trim();
@@ -445,7 +476,6 @@
             document.getElementById('text').value = '';
         }
 
-        // Интерактивный просмотр загружаемых гостями фото
         function previewImages(event) {
             let files = event.target.files;
             let box = document.getElementById('gallery-box');
@@ -460,7 +490,6 @@
             }
         }
 
-        // Постоянно падающие лепестки на дальнем плане
         function startPetalsFalling() {
             setInterval(() => {
                 let petal = document.createElement('div');
@@ -473,11 +502,17 @@
             }, 500);
         }
 
-        // Таймер обратного отсчета (Установлен на 31 июля 2026)
         const weddingDate = new Date('July 31, 2026 17:00:00').getTime();
         setInterval(() => {
             const now = new Date().getTime();
             const diff = weddingDate - now;
             if (diff > 0) {
                 document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('hours').innerText = Math.floor((diff % (100
+                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('minutes').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('seconds').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
