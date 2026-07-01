@@ -4,604 +4,545 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Приглашение на торжество | Сагын & Айнуру</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Montserrat:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body, html {
             height: 100%;
-            background-color: #FAF9F6; /* Шелковый белый */
+            background: #EADEC9;
+            background: linear-gradient(135deg, #F3EFE6 0%, #EADEC9 50%, #D6C7B1 100%);
             color: #2A2F35;
             font-family: 'Cormorant Garamond', serif;
-            overflow: hidden;
-            perspective: 1500px; /* Для 3D эффекта открывания */
+            overflow-x: hidden;
         }
 
-        /* --- АНИМАЦИОННЫЕ ФОНЫ --- */
+        /* РЕАЛИСТИЧНЫЕ ЛЕПЕСТКИ РОЗ */
         .rose-petal {
             position: fixed;
             top: -20px;
             pointer-events: none;
             z-index: 9999;
-            width: 12px;
-            height: 12px;
-            background: radial-gradient(#d63031, #b21f1f);
-            border-radius: 15px 0 15px 15px;
-            opacity: 0.8;
+            background: radial-gradient(#fff0f0, #fbc5c5);
+            border-radius: 20px 0 20px 20px;
+            opacity: 0.7;
             animation: fall linear infinite;
         }
-
         @keyframes fall {
             0% { top: -20px; transform: translateX(0) rotate(0deg); opacity: 0.8; }
-            100% { top: 105vh; transform: translateX(150px) rotate(360deg); opacity: 0.2; }
+            100% { top: 105vh; transform: translateX(180px) rotate(360deg); opacity: 0; }
         }
 
-        .heart-particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 10001;
-            font-size: 24px;
-            color: #d63031;
-            user-select: none;
-            will-change: transform, opacity;
-        }
-
-        /* --- КОНВЕРТ И ЭФФЕКТ ОТКРЫТИЯ --- */
-        #envelope-wrapper {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #EADEC9 0%, #D6C7B1 50%, #BFA785 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            transition: opacity 1s, transform 1s;
-        }
-
-        /* Фактурная бумага конверта */
-        .envelope-paper {
-            position: absolute;
-            width: 100%; height: 100%;
-            background-color: #f4efeb;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36z8gAFWNgYGBkgAsgFQMjg9WqVQAZzggL9a7O2QAAAABJRU5ErkJggg==');
-            border-radius: 8px;
-            box-shadow: 0 30px 70px rgba(0,0,0,0.15), inset 0 0 20px rgba(0,0,0,0.02);
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Клапаны конверта (в сложенном виде) */
-        .flap {
-            position: absolute;
-            background-color: #f4efeb;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36z8gAFWNgYGBkgAsgFQMjg9WqVQAZzggL9a7O2QAAAABJRU5ErkJggg==');
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: transform 1s, opacity 0.5s;
-        }
-
-        /* Верхний клапан */
-        .flap-top {
-            width: 100%; height: 50%;
-            top: 0; left: 0;
-            border-radius: 8px 8px 0 0;
-            clip-path: polygon(0 0, 100% 0, 50% 100%);
-            transform-origin: top;
-            z-index: 3;
-        }
-
-        /* Нижний клапан */
-        .flap-bottom {
-            width: 100%; height: 50%;
-            bottom: 0; left: 0;
-            border-radius: 0 0 8px 8px;
-            clip-path: polygon(50% 0, 0 100%, 100% 100%);
-            transform-origin: bottom;
-            z-index: 2;
-        }
-
-        /* Боковые клапаны */
-        .flap-left {
-            width: 50%; height: 100%;
-            top: 0; left: 0;
-            border-radius: 8px 0 0 8px;
-            clip-path: polygon(0 0, 100% 50%, 0 100%);
-            transform-origin: left;
-            z-index: 1;
-        }
-        .flap-right {
-            width: 50%; height: 100%;
-            top: 0; right: 0;
-            border-radius: 0 8px 8px 0;
-            clip-path: polygon(100% 0, 100% 100%, 0 50%);
-            transform-origin: right;
-            z-index: 1;
-        }
-
-        /* Контейнер для складывания всех частей */
-        .envelope-fold {
-            width: 420px; height: 260px;
-            max-width: 90%;
-            position: relative;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            transition: transform 0.4s;
-        }
-        .envelope-fold:hover { transform: scale(1.02); }
-
-        /* --- СЕРДЕЧКО ПОСЕРЕДИНЕ (Крепеж) --- */
-        .wax-seal {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px; height: 80px;
-            background: radial-gradient(#E6C280, #C79D4C);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #FFF;
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.3rem;
-            text-shadow: 1px 2px 4px rgba(0,0,0,0.2);
-            box-shadow: 0 8px 20px rgba(199, 157, 76, 0.4);
-            border: 2px solid #D4AF37;
-            z-index: 10; /* Поверх всех клапанов */
-            transition: opacity 0.5s;
-        }
-
-        /* Текст на конверте */
-        .envelope-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.5rem;
-            color: #9E8454;
-            position: absolute;
-            top: 20%; left: 50%;
-            transform: translateX(-50%);
-            z-index: 4;
-            opacity: 0;
-            transition: opacity 0.5s 0.8s;
-        }
-        .envelope-text {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #A39E93;
-            position: absolute;
-            bottom: 20%; left: 50%;
-            transform: translateX(-50%);
-            font-weight: 400;
-            z-index: 4;
-            opacity: 1;
-            transition: opacity 0.5s;
-        }
-
-        /* --- СОСТОЯНИЕ "ОТКРЫТО" --- */
-        body.envelope-opened #envelope-wrapper {
-            pointer-events: none; /* Разрешаем клики по контенту */
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); /* Более светлый фон контента */
-        }
-
-        /* Внутренняя часть конверта (фактура бумаги) */
-        body.envelope-opened .envelope-paper {
-            transform: scale(1.1);
-        }
-
-        /* Убираем крепеж и текст */
-        body.envelope-opened .wax-seal,
-        body.envelope-opened .envelope-text {
-            opacity: 0;
-        }
-
-        /* Показываем заголовок "Приглашение" */
-        body.envelope-opened .envelope-title {
-            opacity: 1;
-        }
-
-        /* Раскрываем клапаны */
-        body.envelope-opened .flap-top {
-            transform: rotateX(-180deg);
-        }
-        body.envelope-opened .flap-bottom {
-            transform: rotateX(180deg);
-            opacity: 0; /* Нижний клапан скрываем, чтобы не мешал */
-        }
-        body.envelope-opened .flap-left {
-            transform: rotateY(-180deg);
-        }
-        body.envelope-opened .flap-right {
-            transform: rotateY(180deg);
-        }
-
-        /* Разрешаем скролл контента */
-        body.envelope-opened {
-            overflow: auto;
-        }
-
-        /* --- ГЛАВНЫЙ КОНТЕНТ (ПИСЬМО НА ПЕРЕДНЕМ ПЛАНЕ) --- */
-        #main-content {
-            position: relative;
+        /* ГЛАВНЫЙ КОНТЕЙНЕР ДЛЯ СЦЕНЫ С КОНВЕРТОМ */
+        .scene {
             width: 100%;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            padding: 40px 0;
-            z-index: 1; /* Между фоном конверта и самим конвертом wrapper */
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s 1s, transform 1s 1s;
-        }
-
-        body.envelope-opened #main-content {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Элементы письма */
-        .content-card {
-            max-width: 550px;
-            width: 90%;
-            background: #FFFFFF; /* Чисто белое письмо */
-            padding: 40px 30px;
-            margin: 20px 0;
-            border: 2px solid #FDF6E3; /* Золотистая рамка */
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            border-radius: 2px;
+            padding: 20px;
+            perspective: 1200px;
             position: relative;
         }
 
-        /* ТЕКСТОВЫЕ СТИЛИ НА ПИСЬМЕ */
-        h2 { font-size: 1.8rem; color: #9E8454; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; }
-        
-        .invitation-text {
-            font-size: 1.25rem;
-            line-height: 1.9;
-            font-style: italic;
-            color: #3A4146;
+        /* КОНВЕРТ */
+        .envelope-container {
+            width: 550px;
+            height: 380px;
+            max-width: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
         }
 
-        .hosts-title { font-family: 'Great Vibes', cursive; font-size: 2.3rem; color: #9E8454; margin-top: 15px; }
-        .hosts-names { font-size: 1.6rem; letter-spacing: 1px; font-weight: 600; margin-top: 5px; color: #2A2F35; }
+        /* Задняя часть и внутренность конверта */
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #E4D8C4;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            z-index: 1;
+        }
 
-        /* КНОПКИ НАВИГАЦИИ */
-        .nav-box { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
-        .btn-nav {
-            padding: 10px 25px;
-            background: transparent;
-            border: 1px solid #9E8454;
-            color: #9E8454;
+        /* Внутренний треугольник (полость открытого конверта) */
+        .envelope-back::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0; height: 0;
+            border-left: 275px solid transparent;
+            border-right: 275px solid transparent;
+            border-bottom: 190px solid #DCD0BC;
+            border-top: 190px solid transparent;
+            z-index: 1;
+        }
+        @media(max-width: 580px) {
+            .envelope-back::after {
+                border-left-width: calc(50vw - 20px);
+                border-right-width: calc(50vw - 20px);
+            }
+        }
+
+        /* Нижний и боковые клапаны (передний фон в закрытом состоянии) */
+        .envelope-front-flaps {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .flap-left, .flap-right, .flap-bottom {
+            position: absolute;
+            width: 0; height: 0;
+            border-style: solid;
+        }
+        .flap-left {
+            bottom: 0; left: 0;
+            border-width: 190px 0 190px 275px;
+            border-color: transparent transparent transparent #EFE6D5;
+        }
+        .flap-right {
+            bottom: 0; right: 0;
+            border-width: 190px 275px 190px 0;
+            border-color: transparent #EFE6D5 transparent transparent;
+        }
+        .flap-bottom {
+            bottom: 0; left: 0;
+            border-width: 0 275px 190px 275px;
+            border-color: transparent transparent #F7F0E3 transparent;
+        }
+
+        @media(max-width: 580px) {
+            .flap-left { border-width: 190px 0 190px calc(50vw - 20px); }
+            .flap-right { border-width: 190px calc(50vw - 20px) 190px 0; }
+            .flap-bottom { border-width: 0 calc(50vw - 20px) 190px calc(50vw - 20px); }
+        }
+
+        /* ВЕРХНИЙ КЛАПАН КОНВЕРТА (ОТКРЫВАЕТСЯ НАВЕРХ) */
+        .flap-top {
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-style: solid;
+            border-width: 190px 275px 0 275px;
+            border-color: #EFE6D5 transparent transparent transparent;
+            transform-origin: top center;
+            z-index: 4;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s 0.4s;
+        }
+        @media(max-width: 580px) {
+            .flap-top { border-width: 190px calc(50vw - 20px) 0 calc(50vw - 20px); }
+        }
+
+        /* СЕРДЕЧКО СТРОГО ПО ЦЕНТРУ */
+        .heart-seal {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 90px;
+            z-index: 10;
+            cursor: pointer;
+            filter: drop-shadow(0 6px 15px rgba(184, 134, 11, 0.4));
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .heart-seal:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        .heart-shape {
+            position: absolute;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #F1D399 0%, #D4AF37 50%, #AA7C11 100%);
+            clip-path: path('M12 4.435c-1.989-5.399-12-4.597-12 3.568 0 4.068 3.06 6.028 12 14 8.94-7.972 12-9.932 12-14 0-8.165-10.011-8.967-12-3.568z');
+            transform: scale(4.1);
+        }
+        .heart-text {
+            position: relative;
+            z-index: 11;
+            color: #FFF;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-shadow: 1px 2px 4px rgba(0,0,0,0.3);
+            margin-top: -5px;
+        }
+
+        /* ТЕКСТ ПОДСКАЗКИ ПОД КОНВЕРТОМ */
+        .hint-text {
+            position: absolute;
+            bottom: -50px;
+            left: 0; width: 100%;
+            text-align: center;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #8A7A63;
+            transition: opacity 0.5s;
+        }
+
+        /* ПИСЬМО (ЛИСТОК НА ПЕРЕДНЕМ ПЛАНЕ) */
+        .letter {
+            position: absolute;
+            width: 92%;
+            height: 90%;
+            background: #FFFFFF;
+            left: 4%; bottom: 5%;
+            z-index: 2; /* Находится внутри конверта изначально */
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.1s 0.4s, width 0.8s, height 0.8s, left 0.8s;
+            padding: 30px 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #F3EDE2;
+        }
+
+        /* ДЕКОРАТИВНЫЕ ЖИВЫЕ БЕЛЫЕ РОЗЫ НА ПЕРВОЙ СТРАНИЦЕ */
+        .rose-bunch-left, .rose-bunch-right {
+            position: absolute;
+            bottom: -10px;
+            width: 140px; height: 180px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.9;
+            z-index: 5;
+            pointer-events: none;
+            display: none;
+        }
+        /* Высококачественные фото белых роз */
+        .rose-bunch-left { left: -20px; background-image: url('https://images.unsplash.com/photo-1559563458-527698bf5295?q=80&w=300'); transform: scaleX(-1); }
+        .rose-bunch-right { right: -20px; background-image: url('https://images.unsplash.com/photo-1559563458-527698bf5295?q=80&w=300'); }
+
+        /* СОСТОЯНИЕ ПОСЛЕ НАЖАТИЯ (КОНВЕРТ ОТКРЫТ) */
+        .scene.opened .flap-top {
+            transform: rotateX(180deg);
+            z-index: 1; /* Опускаем клапан назад */
+        }
+        .scene.opened .heart-seal, .scene.opened .hint-text {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* ПИСЬМО ВЫЕЗЖАЕТ И СТАНОВИТСЯ НА ПЕРЕДНИЙ ПЛАН */
+        .scene.opened .letter {
+            transform: translateY(-20px) scale(1.05);
+            z-index: 5; /* Теперь поверх всех клапанов конверта */
+            width: 530px;
+            height: auto;
+            min-height: 580px;
+            left: 10px;
+            position: relative; /* Чтобы адаптироваться под контент */
+            box-shadow: 0 20px 50px rgba(90, 75, 50, 0.2);
+            border: 6px double #E0D4BE;
+        }
+        @media(max-width: 580px) {
+            .scene.opened .letter {
+                width: 100%;
+                left: 0;
+                padding: 30px 15px;
+            }
+        }
+        .scene.opened .envelope-container {
+            transform: translateY(40px); /* Слегка опускаем конверт для гармонии */
+        }
+
+        /* СТИЛИ СТРАНИЦ ВНУТРИ ПИСЬМА */
+        .page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            animation: fadeIn 0.6s ease-in-out forwards;
+            text-align: center;
+        }
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Оформление текстов */
+        h2 { font-size: 1.7rem; color: #A48652; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; font-weight: 400; }
+        .invitation-text { font-size: 1.2rem; line-height: 1.7; font-style: italic; color: #3A4146; margin-bottom: 15px; }
+        
+        .hosts-title { font-family: 'Great Vibes', cursive; font-size: 2.3rem; color: #A48652; margin-top: 20px; }
+        .hosts-names { font-size: 1.5rem; letter-spacing: 1px; font-weight: 600; color: #2A2F35; margin-top: 2px; }
+
+        /* НАВИГАЦИЯ */
+        .nav-box { display: flex; justify-content: center; gap: 12px; margin-top: 25px; width: 100%; z-index: 10; }
+        .btn-nav {
+            padding: 10px 22px;
+            background: transparent;
+            border: 1px solid #A48652;
+            color: #A48652;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.3s;
             text-decoration: none;
         }
-        .btn-nav:hover { background: #9E8454; color: #FFF; }
+        .btn-nav:hover { background: #A48652; color: #FFF; }
 
-        /* Многостраничность контента */
-        .page { display: none; width: 100%; flex-direction: column; align-items: center;}
-        .page.active { display: flex; animation: fadeInPage 0.8s ease forwards; }
-
-        @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Декоративные розы внутри письма */
-        .content-card-decor {
-            position: absolute;
-            width: 120px; height: 120px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.15;
-            pointer-events: none;
-        }
-        .decor-top-left { top: 10px; left: 10px; background-image: url('https://images.unsplash.com/photo-1533616688419-b7a585564566?q=80&w=300'); transform: scaleX(-1); }
-        .decor-bottom-right { bottom: 10px; right: 10px; background-image: url('https://images.unsplash.com/photo-1533616688419-b7a585564566?q=80&w=300'); }
-
-        /* ТАЙМЕР ОБРАТНОГО ОТСЧЕТА */
-        .timer-grid { display: flex; justify-content: center; gap: 15px; margin: 25px 0; }
-        .timer-item { background: #FFF; border: 1px solid #EAE5DC; padding: 12px; min-width: 65px; }
-        .timer-num { font-size: 1.5rem; color: #2A2F35; font-weight: bold; }
-        .timer-label { font-family: 'Montserrat', sans-serif; font-size: 0.65rem; color: #8A94A0; text-transform: uppercase; }
-
-        /* ПАЛИТРА ДРЕСС-КОДА */
-        .palette { display: flex; justify-content: center; gap: 12px; margin-top: 15px; }
-        .circle { width: 35px; height: 35px; border-radius: 50%; border: 1px solid #E2E8F0; }
+        /* ТАЙМЕР */
+        .timer-grid { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        .timer-item { background: #FAF8M5; border: 1px solid #EAE5DC; padding: 10px; min-width: 60px; }
+        .timer-num { font-size: 1.4rem; color: #2A2F35; font-weight: 600; }
+        .timer-label { font-family: 'Montserrat', sans-serif; font-size: 0.6rem; color: #8A94A0; text-transform: uppercase; }
 
         /* КНИГА ПОЖЕЛАНИЙ */
-        .wish-input, .wish-text { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #D6CEBF; background: #FFF; font-family: 'Montserrat', sans-serif; }
-        .wish-text { height: 80px; resize: none; }
-        .wishes-output { max-height: 180px; overflow-y: auto; text-align: left; font-size: 0.95rem; margin-top: 15px; }
-        .wish-item { padding: 10px; border-bottom: 1px solid #EFECE6; font-style: italic; background: rgba(255,255,255,0.5); margin-bottom: 5px; }
+        .wish-input, .wish-text { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #E2DCD0; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; outline: none; }
+        .wish-text { height: 70px; resize: none; }
+        .wishes-output { max-height: 130px; overflow-y: auto; text-align: left; font-size: 0.9rem; width: 100%; margin-top: 10px; }
+        .wish-item { padding: 8px; border-bottom: 1px solid #F0EDE5; font-style: italic; background: #FAF9F6; margin-bottom: 5px; }
 
-        /* ЗАГРУЗКА ФОТО */
-        .upload-zone { border: 2px dashed #9E8454; padding: 30px; cursor: pointer; background: #FFF; margin-bottom: 15px; }
-        .gallery-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-height: 180px; overflow-y: auto; }
-        .gallery-preview img { width: 100%; height: 70px; object-fit: cover; }
-
-        #audio-toggle { position: fixed; bottom: 25px; right: 25px; background: #FFF; border: 1px solid #9E8454; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 9999; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        #audio-controls { position: fixed; bottom: 20px; right: 20px; background: #FFF; border: 1px solid #A48652; width: 44px; height: 44px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 9999; box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-size: 1.1rem; }
+        .hidden-iframe { position: absolute; width: 0; height: 0; border: 0; visibility: hidden; }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop>
-        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3" type="audio/mpeg">
-    </audio>
+    <div id="player" class="hidden-iframe"></div>
 
-    <div id="audio-toggle" onclick="toggleAudio()">🎵</div>
+    <div id="audio-controls" onclick="toggleMusic()">🎵</div>
 
-    <div id="envelope-wrapper">
-        <div class="envelope-fold" id="envelope-fold" onclick="openEnvelope(event)">
-            <div class="envelope-paper"></div>
-            <div class="envelope-title">Приглашение</div>
-            
-            <div class="flap flap-top"></div>
-            <div class="flap flap-bottom"></div>
-            <div class="flap flap-left"></div>
-            <div class="flap flap-right"></div>
-            
-            <div class="wax-seal" id="wax-seal">S&A</div>
-            
-            <div class="envelope-text" id="envelope-text">Нажмите, чтобы открыть</div>
-        </div>
-    </div>
-
-    <main id="main-content">
+    <div class="scene" id="wedding-scene">
         
-        <div id="page1" class="page active">
-            <div class="content-card">
-                <div class="content-card-decor decor-top-left"></div>
-                <div class="content-card-decor decor-bottom-right"></div>
-                
-                <h2>Уважаемый Гость</h2>
-                <p style="font-family:'Montserrat', sans-serif; font-size:0.8rem; text-transform:uppercase; letter-spacing:2px; margin-bottom:20px; color:#A39E93;">Персональное приглашение для:</p>
-                
-                <input type="text" placeholder="Введите Ваше имя..." style="width:80%; padding:10px; border:none; border-bottom:2px solid #9E8454; text-align:center; font-size:1.3rem; font-family:'Cormorant Garamond'; background:transparent; margin-bottom:40px; color:#2A2F35; outline:none; font-weight: 600;">
-                
-                <div class="hosts-title">Хозяева торжества</div>
-                <div class="hosts-names">Арстан & Нурай</div>
-                
-                <div class="nav-box">
-                    <button class="btn-nav" onclick="nextPage(2)">Далее</button>
-                </div>
+        <div class="envelope-container">
+            
+            <div class="envelope-back"></div>
+            
+            <div class="flap-top"></div>
+            
+            <div class="envelope-front-flaps">
+                <div class="flap-left"></div>
+                <div class="flap-right"></div>
+                <div class="flap-bottom"></div>
             </div>
-        </div>
 
-        <div id="page2" class="page">
-            <div class="content-card">
-                <div class="content-card-decor decor-top-left"></div>
-                <div class="content-card-decor decor-bottom-right"></div>
+            <div class="heart-seal" onclick="openWeddingEnvelope()">
+                <div class="heart-shape"></div>
+                <div class="heart-text">С&А</div>
+            </div>
 
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" width="130" height="90" style="margin-bottom: 15px;">
-                  <defs>
-                    <linearGradient id="gold-3d" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#D4AF37"/><stop offset="30%" stop-color="#FFFDD0"/><stop offset="70%" stop-color="#AA7C11"/><stop offset="100%" stop-color="#5A450C"/>
-                    </linearGradient>
-                    <linearGradient id="silver-3d" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#E2E8F0"/><stop offset="30%" stop-color="#FFFFFF"/><stop offset="70%" stop-color="#A0AEC0"/><stop offset="100%" stop-color="#4A5568"/>
-                    </linearGradient>
-                  </defs>
-                  <circle cx="85" cy="60" r="35" fill="none" stroke="url(#silver-3d)" stroke-width="7" filter="drop-shadow(2px 4px 6px rgba(0,0,0,0.15))"/>
-                  <circle cx="115" cy="60" r="35" fill="none" stroke="url(#gold-3d)" stroke-width="7" filter="drop-shadow(2px 4px 6px rgba(0,0,0,0.15))"/>
-                </svg>
+            <div class="hint-text">Нажмите на сердечко</div>
 
-                <p class="invitation-text" style="font-weight: 600; margin-bottom: 15px; color:#9E8454;">Дорогие наши родные и уважаемые гости!</p>
-                <p class="invitation-text" style="font-size:1.15rem; margin-bottom: 15px;">С огромной радостью и искренним волнением приглашаем Вас разделить с нами один из самых счастливых и значимых дней нашей семьи — торжество в честь бракосочетания Сагын и Айнуру.</p>
-                <p class="invitation-text" style="font-size:1.15rem;">Для нас будет большой честью видеть Вас в числе почетных гостей этого светлого праздника. Ваше присутствие, добрые пожелания и искренняя радость станут для молодых бесценным подарком.</p>
+            <div class="letter" id="letter-blank">
                 
-                <div class="nav-box">
-                    <button class="btn-nav" onclick="nextPage(1)">Назад</button>
-                    <button class="btn-nav" onclick="nextPage(3)">Далее</button>
-                </div>
-            </div>
-        </div>
+                <div class="rose-bunch-left" id="rose-l"></div>
+                <div class="rose-bunch-right" id="rose-r"></div>
 
-        <div id="page3" class="page">
-            <div class="content-card">
-                <div class="content-card-decor decor-top-left"></div>
-                <div class="content-card-decor decor-bottom-right"></div>
-
-                <h2>Адрес торжества</h2>
-                <p style="font-size: 1.4rem; font-weight: 600; color: #9E8454; margin-bottom: 5px;">Ресторан "Prestige"</p>
-                <p style="font-size: 1.1rem; font-style: italic; margin-bottom: 15px; color:#555;">ул. Благородная, д. 77, г. Бишкек</p>
-                <p style="font-size: 1.1rem; margin-bottom: 20px; font-style: italic;">31 июля 2026 года в 17:00<br>Ждем вас по адресу, указанному на карте ниже:</p>
-                <a href="https://go.2gis.com/FgJRM" target="_blank" class="btn-nav" style="display:inline-block; padding:8px 20px; margin-bottom:35px;">Открыть карту 2ГИС 📍</a>
-
-                <h2>Дресс-код</h2>
-                <p style="font-style: italic; font-size: 1.1rem; color:#4A5568; margin-bottom: 15px;">Мы будем признательны, если Вы поддержите атмосферу аристократизма и выберете вечерние наряды в элегантном классическом стиле.</p>
-                <div class="palette">
-                    <div class="circle" style="background:#1A252F;"></div>
-                    <div class="circle" style="background:#4A5568;"></div>
-                    <div class="circle" style="background:#D4AF37;"></div>
-                    <div class="circle" style="background:#E2E8F0;"></div>
-                    <div class="circle" style="background:#FFFFFF;"></div>
-                </div>
-
-                <div class="nav-box" style="margin-top: 35px;">
-                    <button class="btn-nav" onclick="nextPage(2)">Назад</button>
-                    <button class="btn-nav" onclick="nextPage(4)">Далее</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="page4" class="page">
-            <div class="content-card">
-                <div class="content-card-decor decor-top-left"></div>
-                <div class="content-card-decor decor-bottom-right"></div>
-
-                <h2>Книга пожеланий</h2>
-                <div style="background:rgba(255,255,255,0.5); padding:20px; border:1px solid #EAE5DC; margin-bottom: 40px;">
-                    <input type="text" id="author" class="wish-input" placeholder="Ваше Имя">
-                    <textarea id="text" class="wish-text" placeholder="Ваши изысканные пожелания молодым..."></textarea>
-                    <button onclick="saveWish()" class="btn-nav" style="width:100%;">Оставить слово</button>
+                <div id="page1" class="page active">
+                    <h2>Приглашение</h2>
+                    <p class="invitation-text" style="font-weight: 600; color:#A48652; margin-bottom: 5px;">Дорогие наши родные и уважаемые гости!</p>
+                    <p class="invitation-text" style="font-size:1.1rem;">С огромной радостью приглашаем Вас разделить с нами один из самых счастливых дней нашей семьи — торжество в честь бракосочетания Сагына и Айнуру.</p>
                     
-                    <div class="wishes-output" id="output-box">
-                        <div class="wish-item"><strong style="color:#9E8454;">Арстан и Нурай:</strong> Счастья, любви и долгих совместных лет жизни молодым! Рады видеть всех гостей!</div>
+                    <input type="text" placeholder="Сыймык" readonly style="width: 85%; padding: 8px; border: none; border-bottom: 1px solid #A48652; text-align: center; font-size: 1.4rem; font-family: 'Cormorant Garamond'; background: transparent; margin: 20px 0; color: #2A2F35; font-weight: 600; font-style: italic; outline: none;">
+                    
+                    <div class="hosts-title">Хозяева торжества</div>
+                    <div class="hosts-names">Арстан & Нурай</div>
+                    
+                    <div class="nav-box">
+                        <button class="btn-nav" onclick="changePage(2)">Далее</button>
                     </div>
                 </div>
 
-                <h2>До торжества осталось</h2>
-                <div class="timer-grid">
-                    <div class="timer-item"><div class="timer-num" id="days">00</div><div class="timer-label">Дней</div></div>
-                    <div class="timer-item"><div class="timer-num" id="hours">00</div><div class="timer-label">Часов</div></div>
-                    <div class="timer-item"><div class="timer-num" id="minutes">00</div><div class="timer-label">Мин</div></div>
-                    <div class="timer-item"><div class="timer-num" id="seconds">00</div><div class="timer-label">Сек</div></div>
+                <div id="page2" class="page">
+                    <h2>Локация</h2>
+                    <p style="font-size: 1.4rem; font-weight: 600; color: #A48652; margin-bottom: 2px;">Ресторан "Олигарх"</p>
+                    <p style="font-size: 1.1rem; font-style: italic; margin-bottom: 12px; color:#4A5568;">г. Ош, микрорайон Анар, 1а</p>
+                    <p style="font-size: 1.05rem; margin-bottom: 15px; font-style: italic; color: #555;">31 июля 2026 года в 17:00</p>
+                    <a href="https://go.2gis.com/FgJRM" target="_blank" class="btn-nav" style="display:inline-block; margin-bottom:25px; font-size:0.65rem; padding: 8px 16px;">Открыть карту 2ГИС 📍</a>
+
+                    <h2>Дресс-код</h2>
+                    <p style="font-style: italic; font-size: 1.15rem; color:#4A5568; line-height: 1.6; max-width:95%;">Будем искренне признательны, если вы поддержите изысканную атмосферу нашего вечера и выберете наряды в элегантных классических вечерних тонах.</p>
+
+                    <div class="nav-box">
+                        <button class="btn-nav" onclick="changePage(1)">Назад</button>
+                        <button class="btn-nav" onclick="changePage(3)">Далее</button>
+                    </div>
                 </div>
 
-                <div class="nav-box">
-                    <button class="btn-nav" onclick="nextPage(3)">Назад</button>
+                <div id="page3" class="page">
+                    <h2 style="font-family: 'Great Vibes', cursive; font-size: 2.3rem; text-transform: none; color: #A48652; margin-bottom: 15px;">Сагын & Айнуру</h2>
+                    <p class="invitation-text" style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 15px;">
+                        Мы встретили друг друга и поняли, что именно с этим человеком хотим разделить все радости и моменты жизни.
+                    </p>
+                    <p class="invitation-text" style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 15px;">
+                        С любовью, уважением и благодарностью друг к другу мы начинаем нашу общую историю — историю нашей семьи.
+                    </p>
+                    <p class="invitation-text" style="font-size: 1.15rem; line-height: 1.7; color: #A48652; font-weight: 600;">
+                        Для нас будет большой честью и радостью, если Вы разделите с нами этот счастливый день и станете частью этого важного события.
+                    </p>
+
+                    <div class="nav-box">
+                        <button class="btn-nav" onclick="changePage(2)">Назад</button>
+                        <button class="btn-nav" onclick="changePage(4)">Далее</button>
+                    </div>
                 </div>
+
+                <div id="page4" class="page">
+                    <h2>Книга пожеланий</h2>
+                    <p style="font-style: italic; font-size:1rem; color:#555; margin-bottom:15px;">Оставьте ваши теплые пожелания для Сагына и Айнуру:</p>
+                    
+                    <input type="text" id="guest-name" class="wish-input" placeholder="Ваше Имя">
+                    <textarea id="guest-text" class="wish-text" placeholder="Ваши искренние слова..."></textarea>
+                    <button onclick="addWish()" class="btn-nav" style="width:100%; background:#A48652; color:#fff; padding: 8px;">Отправить</button>
+                    
+                    <div class="wishes-output" id="wishes-box">
+                        <div class="wish-item"><strong>Арстан и Нурай:</strong> Бесконечного счастья и нерушимой любви молодым! Очень ждем встречи!</div>
+                    </div>
+
+                    <div class="nav-box">
+                        <button class="btn-nav" onclick="changePage(3)">Назад</button>
+                        <button class="btn-nav" onclick="changePage(5)">Далее</button>
+                    </div>
+                </div>
+
+                <div id="page5" class="page">
+                    <h2>До торжества осталось</h2>
+                    
+                    <div class="timer-grid">
+                        <div class="timer-item"><div class="timer-num" id="days">00</div><div class="timer-label">Дней</div></div>
+                        <div class="timer-item"><div class="timer-num" id="hours">00</div><div class="timer-label">Часов</div></div>
+                        <div class="timer-item"><div class="timer-num" id="minutes">00</div><div class="timer-label">Мин</div></div>
+                        <div class="timer-item"><div class="timer-num" id="seconds">00</div><div class="timer-label">Сек</div></div>
+                    </div>
+
+                    <p class="invitation-text" style="font-size: 1.15rem; margin-top: 15px; color: #A48652;">
+                        До встречи на нашем празднике!
+                    </p>
+
+                    <div class="nav-box">
+                        <button class="btn-nav" onclick="changePage(4)">Назад</button>
+                    </div>
+                </div>
+
             </div>
+
         </div>
+    </div>
 
-    </main>
-
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Функция открытия конверта
-        function openEnvelope(event) {
-            event.stopPropagation(); // Предотвращаем клик по wrapper
-            
-            const fold = document.getElementById('envelope-fold');
-            const seal = document.getElementById('wax-seal');
-            const text = document.getElementById('envelope-text');
+        let ytPlayer;
+        let isPlaying = false;
 
-            // 1. Анимация открепления сердечка и текста
-            seal.style.opacity = '0';
-            seal.style.transform = 'translate(-50%, -50%) scale(0.5)';
-            text.style.opacity = '0';
-
-            // 2. Добавляем класс открытия (с задержкой для открепления)
-            setTimeout(() => {
-                document.body.classList.add('envelope-opened');
-                
-                // Эффект вылетающих сердечек (как голуби)
-                const rect = fold.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-
-                for (let i = 0; i < 20; i++) {
-                    setTimeout(() => {
-                        createHeart(centerX, centerY);
-                    }, i * 30);
+        // Инициализация YouTube плеера
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: 'dWb1_QUW8_w', 
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': 'dWb1_QUW8_w'
+                },
+                events: {
+                    'onReady': onPlayerReady
                 }
+            });
+        }
 
-                // Пытаемся запустить музыку
-                toggleAudio(true);
+        function onPlayerReady(event) {
+            // Плеер загружен и готов
+        }
+
+        function openWeddingEnvelope() {
+            const scene = document.getElementById('wedding-scene');
+            scene.classList.add('opened');
+
+            // Запускаем музыку из YouTube
+            if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+                ytPlayer.playVideo();
+                isPlaying = true;
+                document.getElementById('audio-controls').innerText = "🔇";
+            }
+
+            // Показываем розы на 1 странице
+            document.getElementById('rose-l').style.display = 'block';
+            document.getElementById('rose-r').style.display = 'block';
+
+            // Эффект красивых падающих лепестков роз
+            setInterval(() => {
+                let petal = document.createElement('div');
+                petal.className = 'rose-petal';
+                petal.style.left = Math.random() * window.innerWidth + 'px';
+                petal.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
+                petal.style.width = petal.style.height = (Math.random() * 10 + 10) + 'px';
+                document.body.appendChild(petal);
+                setTimeout(() => petal.remove(), 6000);
             }, 300);
         }
 
-        // Эффект вылетающих сердечек
-        function createHeart(x, y) {
-            const heart = document.createElement('div');
-            heart.className = 'heart-particle';
-            heart.innerHTML = Math.random() > 0.5 ? '❤️' : '🕊️'; // Сердечки и Голуби
-            heart.style.left = x + 'px';
-            heart.style.top = y + 'px';
-            document.body.appendChild(heart);
+        function changePage(pageNum) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page' + pageNum).classList.add('active');
 
-            // Случайное направление
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = Math.random() * 10 + 15; // Скорость взлета
-            const dx = Math.cos(angle) * velocity;
-            const dy = Math.sin(angle) * velocity - 10; // Всегда немного вверх
-
-            let opacity = 1;
-            let currentX = x;
-            let currentY = y;
-            let scale = 1;
-
-            const interval = setInterval(() => {
-                currentX += dx;
-                currentY += dy;
-                opacity -= 0.03;
-                scale -= 0.01;
-
-                if (opacity <= 0) {
-                    clearInterval(interval);
-                    heart.remove();
-                } else {
-                    heart.style.transform = `translate(${currentX - x}px, ${currentY - y}px) scale(${scale})`;
-                    heart.style.opacity = opacity;
-                }
-            }, 20);
-        }
-
-        // Фоновый листопад
-        function startPetals() {
-            setInterval(() => {
-                const petal = document.createElement('div');
-                petal.className = 'rose-petal';
-                petal.style.left = Math.random() * window.innerWidth + 'px';
-                petal.style.animationDuration = (Math.random() * 3 + 4) + 's'; // 4-7 сек
-                petal.style.opacity = Math.random() * 0.5 + 0.3;
-                document.body.appendChild(petal);
-
-                setTimeout(() => petal.remove(), 7000);
-            }, 500);
-        }
-
-        // Логика кнопок "Далее" / "Назад"
-        function nextPage(pageNumber) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.getElementById('page' + pageNumber).classList.add('active');
-            
-            // Скроллим наверх письма
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Аудио логика
-        function toggleAudio(forcePlay = false) {
-            const music = document.getElementById('bg-music');
-            const btn = document.getElementById('audio-toggle');
-            
-            if (forcePlay || music.paused) {
-                music.play();
-                btn.innerText = '🔇';
+            // Живые розы показываем только на первой странице, на остальных убираем
+            if (pageNum === 1) {
+                document.getElementById('rose-l').style.display = 'block';
+                document.getElementById('rose-r').style.display = 'block';
             } else {
-                music.pause();
-                btn.innerText = '🎵';
+                document.getElementById('rose-l').style.display = 'none';
+                document.getElementById('rose-r').style.display = 'none';
             }
         }
 
-        // Таймер обратного отсчета
-        function updateTimer() {
-            const weddingDate = new Date('July 31, 2026 17:00:00').getTime();
+        function toggleMusic() {
+            const btn = document.getElementById('audio-controls');
+            if (ytPlayer) {
+                if (isPlaying) {
+                    ytPlayer.pauseVideo();
+                    isPlaying = false;
+                    btn.innerText = "🎵";
+                } else {
+                    ytPlayer.playVideo();
+                    isPlaying = true;
+                    btn.innerText = "🔇";
+                }
+            }
+        }
+
+        function addWish() {
+            let name = document.getElementById('guest-name').value.trim();
+            let text = document.getElementById('guest-text').value.trim();
+            if(!name || !text) return alert('Пожалуйста, заполните поля!');
+
+            let box = document.getElementById('wishes-box');
+            let item = document.createElement('div');
+            item.className = 'wish-item';
+            item.innerHTML = `<strong>${name}:</strong> ${text}`;
+            box.insertBefore(item, box.firstChild);
+
+            document.getElementById('guest-name').value = '';
+            document.getElementById('guest-text').value = '';
+        }
+
+        // Таймер обратного отсчета (31 июля 2026)
+        const targetDate = new Date('July 31, 2026 17:00:00').getTime();
+        setInterval(() => {
             const now = new Date().getTime();
-            const distance = weddingDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
-            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
-            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
-            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
-        }
-
-        // Запуск листопадов и таймера
-        window.onload = function() {
-            startPetals();
-            setInterval(updateTimer, 1000);
-        }
-
-        // Книга пожеланий (без сервера)
-        function saveWish() {
-            const author = document.getElementById('author').value;
-            const text = document.getElementById('text').value;
-            if(!author || !text) return;
-
-            const box = document.getElementById('output-box');
-            const wish = document.createElement('div');
-            wish.className = 'wish-item';
-            wish.innerHTML = `<strong>${author}:</strong> ${text}`;
-            box.prepend(wish);
-
-            // Очистка полей
-            document.getElementById('author').value = '';
-            document.getElementById('text').value = '';
-        }
+            const diff = targetDate - now;
+            if (diff > 0) {
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('minutes').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('seconds').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            }
+        }, 1000);
     </script>
 </body>
 </html>
